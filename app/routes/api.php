@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\IngestionController;
 use App\Http\Controllers\Api\MemorySearchController;
 use App\Support\Policy\PolicyVerifier;
@@ -34,4 +35,5 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function (): void {
     Route::delete('/ingest/document/{document}', [IngestionController::class, 'destroyDocument']);
     Route::delete('/ingest/source/{source}', [IngestionController::class, 'destroyBySource']);
     Route::get('/memory/search', MemorySearchController::class);
+    Route::post('/chat', ChatController::class);
 });
