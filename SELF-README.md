@@ -108,11 +108,11 @@ window.Echo = new Echo({
 ### M0 — Foundation & Immutable Policy
 **Goal:** Boot securely with fail‑closed policy; scaffolding in place.
 
-- [ ] Add `policy/immutable-policy.yaml` and sign with **Owner Key** (kept offline).  
-- [ ] Boot‑time signature verification; **halt** on invalid signature.  
-- [ ] Jetstream (Teams) or Sanctum auth; Spatie Permission roles (`owner`, `operator`).  
-- [ ] Health endpoints (`/health`, `/policy/verify`) returning policy hash & status.  
-- [ ] Horizon + Redis queue; base audit log middleware (append‑only with hash chaining).
+- [x] Add `policy/immutable-policy.yaml` and sign with **Owner Key** (kept offline).
+- [x] Boot‑time signature verification; **halt** on invalid signature.
+- [x] Sanctum auth; Spatie Permission roles (`owner`, `operator`).
+- [x] Health endpoints (`/health`, `/policy/verify`) returning policy hash & status.
+- [x] Horizon + Redis queue; base audit log middleware (append‑only with hash chaining).
 
 **Acceptance (Gherkin):**
 ```
