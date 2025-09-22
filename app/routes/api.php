@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\IngestionController;
 use App\Support\Policy\PolicyVerifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,4 +25,11 @@ Route::get('/policy/verify', function (PolicyVerifier $verifier) {
         'valid' => true,
         'policy' => $result,
     ]);
+});
+
+Route::middleware('auth:sanctum')->prefix('v1')->group(function (): void {
+    Route::post('/ingest/text', [IngestionController::class, 'ingestText']);
+    Route::post('/ingest/file', [IngestionController::class, 'ingestFile']);
+    Route::delete('/ingest/document/{document}', [IngestionController::class, 'destroyDocument']);
+    Route::delete('/ingest/source/{source}', [IngestionController::class, 'destroyBySource']);
 });
