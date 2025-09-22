@@ -5,17 +5,22 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Support\Audio\AsrService;
 use App\Support\Audio\TtsService;
+use App\Support\Audio\VoiceImpersonationRejectedException;
+use App\Support\Audio\VoiceRegistry;
+use App\Support\Audio\VoiceUnavailableException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpFoundation\Response;
 
 class AudioController extends Controller
 {
     public function __construct(
         private readonly AsrService $asrService,
-        private readonly TtsService $ttsService
+        private readonly TtsService $ttsService,
+        private readonly VoiceRegistry $voiceRegistry
     ) {
     }
 
@@ -55,14 +60,32 @@ class AudioController extends Controller
 
     public function tts(Request $request): JsonResponse
     {
+        $allowedVoices = $this->voiceRegistry->availableVoiceIds();
+
         $validated = $request->validate([
             'text' => ['required', 'string', 'min:1', 'max:2000'],
-            'voice' => ['sometimes', 'string', 'in:neutral'],
+            'voice' => ['sometimes', 'string', Rule::in($allowedVoices)],
         ]);
 
         $voice = Str::lower($validated['voice'] ?? config('audio.tts.default_voice', 'neutral'));
 
-        $record = $this->ttsService->synthesize($validated['text'], $voice, $request->user());
+        try {
+            $record = $this->ttsService->synthesize($validated['text'], $voice, $request->user());
+        } catch (VoiceUnavailableException $exception) {
+            return response()->json([
+                'error' => 'voice_unavailable',
+                'voice_id' => $exception->voiceId,
+                'reason' => $exception->reason,
+                'message' => $exception->getMessage(),
+            ], Response::HTTP_CONFLICT);
+        } catch (VoiceImpersonationRejectedException $exception) {
+            return response()->json([
+                'error' => 'impersonation_refused',
+                'keyword' => $exception->keyword,
+                'message' => $exception->getMessage(),
+                'safe_alternative' => $exception->alternative,
+            ], Response::HTTP_FORBIDDEN);
+        }
         $metadata = $record->metadata ?? [];
         if (! is_array($metadata)) {
             $metadata = [];

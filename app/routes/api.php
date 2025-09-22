@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AudioController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\IngestionController;
 use App\Http\Controllers\Api\MemorySearchController;
+use App\Http\Controllers\Api\VoiceController;
 use App\Support\Policy\PolicyVerifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +40,6 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function (): void {
     Route::post('/chat', ChatController::class);
     Route::post('/audio/asr', [AudioController::class, 'asr']);
     Route::post('/audio/tts', [AudioController::class, 'tts']);
+    Route::post('/voice/enrol', [VoiceController::class, 'enrol']);
+    Route::post('/voice/kill-switch', [VoiceController::class, 'killSwitch']);
 });
