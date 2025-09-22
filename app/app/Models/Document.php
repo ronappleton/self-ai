@@ -106,4 +106,12 @@ class Document extends Model
     {
         return $this->hasMany(Consent::class);
     }
+
+    /**
+     * Memory chunks generated from this document.
+     */
+    public function memories(): HasMany
+    {
+        return $this->hasMany(Memory::class);
+    }
 }
