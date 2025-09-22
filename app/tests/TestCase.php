@@ -13,6 +13,12 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        config([
+            'cache.default' => 'array',
+            'queue.default' => 'sync',
+            'broadcasting.default' => 'log',
+        ]);
+
         Cache::clear();
     }
 }
