@@ -21,6 +21,14 @@ return [
         'sample_rate' => (int) env('AUDIO_TTS_SAMPLE_RATE', 16000),
     ],
 
+    'owner_voice' => [
+        'voice_id' => env('AUDIO_OWNER_VOICE_ID', 'owner'),
+        'kill_switch' => [
+            'disk' => env('AUDIO_OWNER_KILL_SWITCH_DISK', 'local'),
+            'flag_path' => env('AUDIO_OWNER_KILL_SWITCH_FLAG', 'system/tts-owner-disabled.flag'),
+        ],
+    ],
+
     'playwright' => [
         'artifact_root' => env('PLAYWRIGHT_ARTIFACT_ROOT', storage_path('app/tmp/playwright')),
     ],
