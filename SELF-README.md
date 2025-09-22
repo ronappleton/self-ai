@@ -144,11 +144,11 @@ Then it is not indexed and is excluded from retrieval
 ### M2 — Memory Store (RAG)
 **Goal:** Encrypted vectors, retrievable with citations and freshness/confidence scores.
 
-- [ ] Chunker + embeddings job (`EmbedDocument`) enqueued to Redis.  
-- [ ] `worker-embed` consumes jobs, returns vectors; Laravel persists to FAISS.  
-- [ ] `GET /v1/memory/search?q=...` returns `{hits:[{chunk,score,source_id,ts}]}`.  
-- [ ] Retrieval adds freshness & source weighting; configurable per request.  
-- [ ] Encryption at rest for vector files; key rotation plan documented.
+- [x] Chunker + embeddings job (`EmbedDocument`) enqueued to Redis.
+- [x] `worker-embed` consumes jobs, returns vectors; Laravel persists to FAISS.
+- [x] `GET /v1/memory/search?q=...` returns `{hits:[{chunk,score,source_id,ts}]}`.
+- [x] Retrieval adds freshness & source weighting; configurable per request.
+- [x] Encryption at rest for vector files; key rotation plan documented.
 
 **Acceptance:**
 ```

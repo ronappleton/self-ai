@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Consent;
 use App\Models\Document;
 use App\Support\Ingestion\PiiScrubber;
+use App\Support\Memory\MemoryPruner;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class IngestionController extends Controller
 {
+    public function __construct(private readonly MemoryPruner $memoryPruner)
+    {
+    }
+
     /**
      * Ingest a text document.
      */
@@ -117,6 +122,7 @@ class IngestionController extends Controller
      */
     public function destroyDocument(Document $document): JsonResponse
     {
+        $this->memoryPruner->forgetDocument($document);
         $this->removeDocumentFromStorage($document);
 
         $document->status = 'deleted';
@@ -143,8 +149,10 @@ class IngestionController extends Controller
      */
     public function destroyBySource(string $source): JsonResponse
     {
-        $documents = Document::where('source', $source)->get();
+        $documents = Document::with('memories')->where('source', $source)->get();
         $count = 0;
+
+        $this->memoryPruner->forgetDocuments($documents);
 
         foreach ($documents as $document) {
             $this->removeDocumentFromStorage($document);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\IngestionController;
+use App\Http\Controllers\Api\MemorySearchController;
 use App\Support\Policy\PolicyVerifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,4 +33,5 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function (): void {
     Route::post('/ingest/file', [IngestionController::class, 'ingestFile']);
     Route::delete('/ingest/document/{document}', [IngestionController::class, 'destroyDocument']);
     Route::delete('/ingest/source/{source}', [IngestionController::class, 'destroyBySource']);
+    Route::get('/memory/search', MemorySearchController::class);
 });

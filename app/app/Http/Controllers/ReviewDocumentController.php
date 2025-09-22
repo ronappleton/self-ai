@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\EmbedDocument;
 use App\Models\Document;
+use App\Support\Memory\MemoryPruner;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,6 +12,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ReviewDocumentController extends Controller
 {
+    public function __construct(private readonly MemoryPruner $memoryPruner)
+    {
+    }
+
     /**
      * Display the review queue.
      */
@@ -48,6 +54,8 @@ class ReviewDocumentController extends Controller
             'granted_at' => now(),
         ]);
 
+        EmbedDocument::dispatch($document->id);
+
         return redirect()
             ->route('review.documents.index')
             ->with('status', 'Document approved.');
@@ -76,6 +84,8 @@ class ReviewDocumentController extends Controller
             'notes' => $validated['reason'],
             'granted_at' => null,
         ]);
+
+        $this->memoryPruner->forgetDocument($document);
 
         return redirect()
             ->route('review.documents.index')
