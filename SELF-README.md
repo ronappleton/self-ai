@@ -179,11 +179,11 @@ Then the system refuses with a safe alternative and logs the refusal
 ### M4 — Audio v1 (ASR/TTS Neutral)
 **Goal:** Basic audio IO without streaming; neutral TTS only.
 
-- [ ] `POST /v1/audio/asr` accepts wav/opus; returns transcript + timings.  
-- [ ] `POST /v1/audio/tts` neutral voice; returns `audio_url` from MinIO.  
-- [ ] Jobs routed to `worker-asr` / `worker-tts`; watermark id included in metadata.  
-- [ ] Storage paths under `minio://audio/{yyyy}/{mm}/{dd}/{run-id}/...`.  
-- [ ] Playwright tests use **throwaway paths**: `storage/app/tmp/playwright/<run-id>`; no binaries committed.
+- [x] `POST /v1/audio/asr` accepts wav/opus; returns transcript + timings.
+- [x] `POST /v1/audio/tts` neutral voice; returns `audio_url` from MinIO.
+- [x] Jobs routed to `worker-asr` / `worker-tts`; watermark id included in metadata.
+- [x] Storage paths under `minio://audio/{yyyy}/{mm}/{dd}/{run-id}/...`.
+- [x] Playwright tests use **throwaway paths**: `storage/app/tmp/playwright/<run-id>`; no binaries committed.
 
 **Acceptance:**
 ```

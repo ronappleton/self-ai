@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AudioController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\IngestionController;
 use App\Http\Controllers\Api\MemorySearchController;
@@ -36,4 +37,6 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function (): void {
     Route::delete('/ingest/source/{source}', [IngestionController::class, 'destroyBySource']);
     Route::get('/memory/search', MemorySearchController::class);
     Route::post('/chat', ChatController::class);
+    Route::post('/audio/asr', [AudioController::class, 'asr']);
+    Route::post('/audio/tts', [AudioController::class, 'tts']);
 });
