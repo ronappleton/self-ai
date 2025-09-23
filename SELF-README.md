@@ -212,11 +212,11 @@ Then the system refuses and offers synthetic alternatives
 ### M6 — Self‑Improve Pipeline v1 (Propose → Test → Diff)
 **Goal:** Bounded self‑improvement without promotion rights.
 
-- [ ] `POST /v1/rfc` to draft change (scope, risks, tests, budget).  
-- [ ] `POST /v1/build` to run sandbox (static analysis, unit/e2e, perf checks).  
-- [ ] Reports + diffs + rollback plan stored in MinIO; view via `GET /v1/build/:id`.  
-- [ ] Tripwires: touching `policy/`, auth, network code → build marked **blocked**.  
-- [ ] Playwright screenshots to **throwaway path** only; script to regenerate locally.
+- [x] `POST /v1/rfc` to draft change (scope, risks, tests, budget).  
+- [x] `POST /v1/build` to run sandbox (static analysis, unit/e2e, perf checks).  
+- [x] Reports + diffs + rollback plan stored in MinIO; view via `GET /v1/build/:id`.  
+- [x] Tripwires: touching `policy/`, auth, network code → build marked **blocked**.  
+- [x] Playwright screenshots to **throwaway path** only; script to regenerate locally.
 
 **Acceptance:**
 ```

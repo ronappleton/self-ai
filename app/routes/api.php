@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AudioController;
 use App\Http\Controllers\Api\ChatController;
 use App\Http\Controllers\Api\IngestionController;
+use App\Http\Controllers\Api\BuildController;
+use App\Http\Controllers\Api\RfcController;
 use App\Http\Controllers\Api\MemorySearchController;
 use App\Http\Controllers\Api\VoiceController;
 use App\Support\Policy\PolicyVerifier;
@@ -42,4 +44,7 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function (): void {
     Route::post('/audio/tts', [AudioController::class, 'tts']);
     Route::post('/voice/enrol', [VoiceController::class, 'enrol']);
     Route::post('/voice/kill-switch', [VoiceController::class, 'killSwitch']);
+    Route::post('/rfc', [RfcController::class, 'store']);
+    Route::post('/build', [BuildController::class, 'store']);
+    Route::get('/build/{build}', [BuildController::class, 'show']);
 });
