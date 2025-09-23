@@ -162,11 +162,11 @@ Then results include the chunk and a citation to the source document
 ### M3 — Chat/Coach v1
 **Goal:** Modeful chat with “why” card and guardrails.
 
-- [ ] `POST /v1/chat` `{mode,prompt,controls}` → reply + citations + why_card.  
-- [ ] Modes: Coach / Analyst / Listener (tone & formatting differences).  
-- [ ] Explanation dial: terse vs detailed; always show citations when used.  
-- [ ] Topic blocks (medical/financial high‑risk); refusal + safer alternative text.  
-- [ ] Rate/budget limits per token/second; surface remaining budget in response.
+- [x] `POST /v1/chat` `{mode,prompt,controls}` → reply + citations + why_card.  
+- [x] Modes: Coach / Analyst / Listener (tone & formatting differences).  
+- [x] Explanation dial: terse vs detailed; always show citations when used.  
+- [x] Topic blocks (medical/financial high‑risk); refusal + safer alternative text.  
+- [x] Rate/budget limits per token/second; surface remaining budget in response.
 
 **Acceptance:**
 ```
