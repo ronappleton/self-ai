@@ -14,6 +14,24 @@ from pathlib import Path
 from typing import Any, Dict
 
 
+def load_active_worker_key(credentials_path: Path) -> str:
+    if not credentials_path.exists():
+        raise SystemExit("Active worker credentials not available.")
+
+    try:
+        data = json.loads(credentials_path.read_text())
+    except json.JSONDecodeError as exc:  # pragma: no cover - defensive
+        raise SystemExit("Worker credential store is invalid.") from exc
+
+    active = data.get("active", {})
+    key = active.get("key")
+
+    if not isinstance(key, str) or key == "":
+        raise SystemExit("Active worker key missing.")
+
+    return key
+
+
 def synthesise(text: str, voice_id: str, output_path: Path, sample_rate: int) -> Dict[str, Any]:
     duration = max(0.4, min(len(text) * 0.05, 6.0))
     base_freq = 220 + (int(hashlib.sha1((text + voice_id).encode("utf-8")).hexdigest(), 16) % 200)
@@ -48,6 +66,8 @@ def main() -> None:
     voice_id = payload.get("voice_id")
     output_path = payload.get("output_path")
     sample_rate = payload.get("sample_rate", 16000)
+    worker_key = payload.get("worker_key")
+    credentials_path_value = payload.get("credentials_path")
 
     if not isinstance(text, str) or text == "":
         raise SystemExit("text must be provided for synthesis")
@@ -55,8 +75,17 @@ def main() -> None:
         raise SystemExit("voice_id must be provided")
     if not isinstance(output_path, str) or output_path == "":
         raise SystemExit("output_path must be provided")
+    if not isinstance(worker_key, str) or worker_key == "":
+        raise SystemExit("worker_key must be provided")
+    if not isinstance(credentials_path_value, str) or credentials_path_value == "":
+        raise SystemExit("credentials_path must be provided")
 
     path = Path(output_path)
+    credentials_path = Path(credentials_path_value)
+    expected_key = load_active_worker_key(credentials_path)
+
+    if worker_key != expected_key:
+        raise SystemExit("Worker key mismatch or revoked.")
 
     if args.command == "synthesize":
         result = synthesise(text, voice_id, path, int(sample_rate))
