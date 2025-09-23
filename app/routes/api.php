@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\BuildController;
 use App\Http\Controllers\Api\RfcController;
 use App\Http\Controllers\Api\MemorySearchController;
 use App\Http\Controllers\Api\VoiceController;
+use App\Http\Controllers\Api\PromotionController;
 use App\Support\Policy\PolicyVerifier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,4 +48,5 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function (): void {
     Route::post('/rfc', [RfcController::class, 'store']);
     Route::post('/build', [BuildController::class, 'store']);
     Route::get('/build/{build}', [BuildController::class, 'show']);
+    Route::post('/promote', [PromotionController::class, 'store']);
 });

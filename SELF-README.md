@@ -229,10 +229,10 @@ Then the build is flagged blocked and cannot be promoted
 ### M7 — Promotion Gate (Verifier Service)
 **Goal:** Separate keys/process approves promotions; canary + rollback.
 
-- [ ] `verifier` service with **Verifier Key** (daily key), distinct from Owner Key.  
-- [ ] `POST /v1/promote {build_id}` requires verifier signature; canary rollout w/ health checks.  
-- [ ] Auto‑rollback on health regression; rollback plan executed.  
-- [ ] Audit trail linking RFC → build → promotion → rollback (if any).
+- [x] `verifier` service with **Verifier Key** (daily key), distinct from Owner Key.
+- [x] `POST /v1/promote {build_id}` requires verifier signature; canary rollout w/ health checks.
+- [x] Auto‑rollback on health regression; rollback plan executed.
+- [x] Audit trail linking RFC → build → promotion → rollback (if any).
 
 **Acceptance:**
 ```
