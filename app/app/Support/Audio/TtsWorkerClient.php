@@ -9,6 +9,10 @@ use Symfony\Component\Process\Process;
 
 class TtsWorkerClient
 {
+    public function __construct(private readonly TtsWorkerCredentials $credentials)
+    {
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -18,6 +22,8 @@ class TtsWorkerClient
         $binary = $config['binary'] ?? 'python3';
         $script = $config['script'] ?? base_path('worker-tts/main.py');
         $timeout = (float) ($config['timeout'] ?? 120);
+        $workerKey = $this->credentials->activeKey();
+        $credentialsPath = $this->credentials->filePath();
 
         $payload = [
             'text' => $text,
@@ -25,6 +31,8 @@ class TtsWorkerClient
             'output_path' => $outputPath,
             'watermark_id' => $watermarkId,
             'sample_rate' => $sampleRate,
+            'worker_key' => $workerKey,
+            'credentials_path' => $credentialsPath,
         ];
 
         $process = new Process([$binary, $script, 'synthesize']);

@@ -19,6 +19,9 @@ return [
         'dispatch' => env('AUDIO_TTS_DISPATCH', 'sync'),
         'default_voice' => env('AUDIO_TTS_DEFAULT_VOICE', 'neutral'),
         'sample_rate' => (int) env('AUDIO_TTS_SAMPLE_RATE', 16000),
+        'worker_credentials' => [
+            'path' => env('AUDIO_TTS_WORKER_CREDENTIAL_PATH', 'system/tts-worker-credentials.json'),
+        ],
     ],
 
     'owner_voice' => [

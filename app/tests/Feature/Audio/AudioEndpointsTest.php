@@ -6,6 +6,7 @@ use App\Models\AudioTranscription;
 use App\Models\TtsRequest;
 use App\Models\User;
 use App\Models\Voice;
+use App\Support\Audio\TtsWorkerCredentials;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +30,11 @@ class AudioEndpointsTest extends TestCase
             'audio.asr.dispatch' => 'sync',
             'audio.tts.dispatch' => 'sync',
         ]);
+
+        $credentialsPath = storage_path('app/system/tts-worker-credentials.json');
+        if (file_exists($credentialsPath)) {
+            unlink($credentialsPath);
+        }
     }
 
     public function test_owner_can_enrol_voice_dataset(): void
@@ -224,6 +230,9 @@ class AudioEndpointsTest extends TestCase
             'script_acknowledged' => 'yes',
         ])->assertCreated();
 
+        $credentials = app(TtsWorkerCredentials::class);
+        $initialKey = $credentials->activeKey();
+
         $response = $this->postJson('/api/v1/voice/kill-switch', [
             'reason' => 'manual safety review',
         ]);
@@ -238,6 +247,9 @@ class AudioEndpointsTest extends TestCase
             'source' => 'voice:owner',
             'status' => 'revoked',
         ]);
+
+        $rotatedKey = $credentials->activeKey();
+        $this->assertNotSame($initialKey, $rotatedKey);
 
         $ttsResponse = $this->postJson('/api/v1/audio/tts', [
             'text' => 'Attempt owner voice after kill switch.',

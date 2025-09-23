@@ -6,6 +6,7 @@ use App\Models\AuditLog;
 use App\Models\Consent;
 use App\Models\User;
 use App\Models\Voice;
+use App\Support\Audio\TtsWorkerCredentials;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,10 @@ use Illuminate\Support\Str;
 
 class VoiceRegistry
 {
+    public function __construct(private readonly TtsWorkerCredentials $credentials)
+    {
+    }
+
     /**
      * Register or refresh the owner voice dataset.
      */
@@ -101,6 +106,8 @@ class VoiceRegistry
         }
 
         if ($voice->status === 'disabled') {
+            $this->credentials->rotate('kill_switch: '.$reason);
+
             return $voice;
         }
 
@@ -118,6 +125,7 @@ class VoiceRegistry
 
         $this->recordConsent($user, $voice->consent_scope, $reason, 'revoked');
         $this->writeKillSwitchFlag($reason);
+        $this->credentials->rotate('kill_switch: '.$reason);
         $this->logEvent($user, 'voice.kill_switch', [
             'voice_id' => $voice->voice_id,
             'reason' => $reason,
