@@ -126,11 +126,11 @@ Then the app fails to boot and returns a clear error on /health
 ### M1 — Ingestion & Consent
 **Goal:** Bring data in deliberately; approve/reject before indexing.
 
-- [ ] Endpoints: `POST /v1/ingest/text`, `POST /v1/ingest/file` (PDF/audio).  
-- [ ] Review queue UI: approve/reject with reason; record consent scope per source.  
-- [ ] PII scrubbing pipeline (basic: emails, phones) with bypass flag (owner only).  
-- [ ] Source tagging, retention classes; `DELETE` for right‑to‑forget (by source/doc).  
-- [ ] Store originals in MinIO with versioning; record SHA‑256 & metadata.
+- [x] Endpoints: `POST /v1/ingest/text`, `POST /v1/ingest/file` (PDF/audio).  
+- [x] Review queue UI: approve/reject with reason; record consent scope per source.  
+- [x] PII scrubbing pipeline (basic: emails, phones) with bypass flag (owner only).  
+- [x] Source tagging, retention classes; `DELETE` for right‑to‑forget (by source/doc).  
+- [x] Store originals in MinIO with versioning; record SHA‑256 & metadata.
 
 **Acceptance:**
 ```
