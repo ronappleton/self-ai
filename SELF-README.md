@@ -195,10 +195,9 @@ Then I receive a transcript and the job and artifacts are stored under a throwaw
 
 ### M5 — Owner’s Voice (Ethical TTS)
 **Goal:** Enrol & use the owner’s voice with consent and controls.
-
-- [x] `POST /v1/voice/enrol` — guided script upload; dataset private; consent recorded.
-- [x] Switchable voice: neutral ↔ owner’s voice; TTS requests logged with watermark id.
-- [x] “Impersonate X” requests auto‑refuse; suggest licensed/synthetic alternatives.
+- [x] `POST /v1/voice/enrol` — guided script upload; dataset private; consent recorded.  
+- [x] Switchable voice: neutral ↔ owner’s voice; TTS requests logged with watermark id.  
+- [x] “Impersonate X” requests auto‑refuse; suggest licensed/synthetic alternatives.  
 - [x] One‑tap kill‑switch disables owner voice and revokes keys used by TTS worker.
 
 **Acceptance:**
