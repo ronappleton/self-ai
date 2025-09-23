@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Build extends Model
@@ -50,6 +51,11 @@ class Build extends Model
     public function rfc(): BelongsTo
     {
         return $this->belongsTo(RfcProposal::class, 'rfc_id');
+    }
+
+    public function promotions(): HasMany
+    {
+        return $this->hasMany(Promotion::class);
     }
 
     public function diffUrl(): ?string
