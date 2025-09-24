@@ -10,12 +10,13 @@ class TopicBlocker
     /**
      * Detect whether the prompt matches a blocked topic.
      *
+     * @param  array<string, array<string, mixed>>|null  $blocks
      * @return array{topic: string, message: string, safe_alternative: string}|null
      */
-    public function detect(string $prompt): ?array
+    public function detect(string $prompt, ?array $blocks = null): ?array
     {
         $prompt = Str::lower($prompt);
-        $blocks = config('chat.topic_blocks', []);
+        $blocks ??= config('chat.topic_blocks', []);
 
         foreach ($blocks as $topic => $definition) {
             $keywords = Arr::get($definition, 'keywords', []);

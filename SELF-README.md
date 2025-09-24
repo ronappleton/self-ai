@@ -245,9 +245,9 @@ Then promotion is denied and logged
 ### M8 — Legacy Preview (Optional)
 **Goal:** Safe, disclosed representation sandbox for owner evaluation.
 
-- [ ] `POST /v1/legacy/preview` — runs with disclosure banner and topic limits.  
-- [ ] Redaction workflow for memories and tone/style tuning.  
-- [ ] Session rate caps and cooldowns; grief‑aware templates.
+- [x] `POST /v1/legacy/preview` — runs with disclosure banner and topic limits.
+- [x] Redaction workflow for memories and tone/style tuning.
+- [x] Session rate caps and cooldowns; grief‑aware templates.
 
 **Acceptance:**
 ```
