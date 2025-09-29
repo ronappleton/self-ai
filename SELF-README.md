@@ -259,9 +259,9 @@ Then the first message discloses it is an AI representation and not the real per
 ### M9 — Legacy Directive Vault
 **Goal:** Define who/when/what/how‑long for posthumous access; unlock policy.
 
-- [ ] `POST /v1/legacy/directive` — beneficiaries, topics allow/deny, duration, rate limits.  
-- [ ] Unlock flow: executor proof + passphrase + time delay; panic‑disable path.  
-- [ ] Append‑only audit; export/erase compliant with GDPR.
+- [x] `POST /v1/legacy/directive` — beneficiaries, topics allow/deny, duration, rate limits.
+- [x] Unlock flow: executor proof + passphrase + time delay; panic‑disable path.
+- [x] Append‑only audit; export/erase compliant with GDPR.
 
 **Acceptance:**
 ```

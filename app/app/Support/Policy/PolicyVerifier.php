@@ -28,8 +28,9 @@ class PolicyVerifier
     public function verify(): array
     {
         $cacheKey = 'policy:immutable:verification';
+        $store = config('policy.cache_store', config('cache.default', 'file'));
 
-        return Cache::rememberForever($cacheKey, function (): array {
+        return Cache::store($store)->rememberForever($cacheKey, function (): array {
             $policyContents = $this->readFile($this->policyPath);
             $signatureContents = $this->readFile($this->signaturePath);
             $publicKeyContents = $this->readFile($this->publicKeyPath);
