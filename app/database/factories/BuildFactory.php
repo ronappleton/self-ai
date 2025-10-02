@@ -33,6 +33,8 @@ class BuildFactory extends Factory
             'artefacts_path' => 'builds/artefacts.json',
             'metadata' => [
                 'summary' => 'Initial build factory state',
+                'manifest_disk' => 'minio',
+                'manifest_path' => 'builds/manifest.json',
             ],
         ];
     }

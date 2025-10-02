@@ -87,6 +87,8 @@ class RfcBuildTest extends TestCase
         Storage::disk('minio')->assertExists($build->diff_path);
         Storage::disk('minio')->assertExists($build->test_report_path);
         Storage::disk('minio')->assertExists($build->artefacts_path);
+        Storage::disk('minio')->assertExists($build->metadata['manifest_path']);
+        $this->assertSame('minio', $build->metadata['manifest_disk']);
     }
 
     public function test_tripwire_blocks_policy_changes(): void
@@ -267,5 +269,8 @@ class RfcBuildTest extends TestCase
         $this->assertNotNull($showResponse->json('test_report.unit'));
         $this->assertNotNull($showResponse->json('artefacts'));
         $this->assertSame('storage/app/tmp/playwright/run-1/screenshots', $showResponse->json('artefacts.0.path'));
+        $this->assertSame('passed', $showResponse->json('manifest.status'));
+        $this->assertSame('Redeploy previous artefacts.', $showResponse->json('manifest.rollback_plan'));
+        $this->assertSame('passed', $showResponse->json('manifest.tests.static_analysis.status'));
     }
 }

@@ -72,6 +72,10 @@ class BuildController extends Controller
             'status' => $build->status,
             'status_reason' => $build->status_reason,
             'metadata' => $build->metadata,
+            'manifest' => $this->readJson(
+                data_get($build->metadata, 'manifest_disk'),
+                data_get($build->metadata, 'manifest_path'),
+            ),
             'links' => [
                 'diff' => $build->diffUrl(),
                 'test_report' => $build->testReportUrl(),
