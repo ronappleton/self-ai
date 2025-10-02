@@ -7,7 +7,9 @@ This document explains what the API writes, how artefacts are stored, and how to
 
 Build artefacts are written to the MinIO disk under `builds/{rfc_id}/{build_id}`. Each build stores:
 
-- `manifest.json` — status summary, rollback plan reference, tripwire outcome.
+- `manifest.json` — status summary, rollback plan reference, tripwire outcome. The API exposes this document via
+  `GET /v1/build/:id` under the `manifest` key so reviewers can inspect the stored rollback plan and test rollup without
+  mounting the object store.
 - `diff.json` — diff summary and the file list supplied when the build was queued.
 - `reports/tests.json` — structured results from static analysis, unit, e2e, and performance checks.
 - `artefacts.json` — manifest of any additional artefacts (coverage reports, Playwright output, etc.).

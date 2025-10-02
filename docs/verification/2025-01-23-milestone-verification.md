@@ -19,4 +19,9 @@ This log captures a spot check confirming that milestones ticked in `SELF-README
 - Observability metrics surface queue depth, GPU telemetry, and refusal counts; covered by feature test. (Refs: `app/app/Support/Observability/MetricCollector.php`, `app/tests/Feature/ObservabilityMetricsTest.php`)
 - Release candidate notes captured under `docs/release-notes/RC.md` documenting usability & safety pilot outcomes.
 
+## M6 — Self-Improve Pipeline v1
+- RFC proposals captured through `RfcController::store`, storing scope, risks, and test plan metadata. (Ref: `app/app/Http/Controllers/Api/RfcController.php`)
+- Builds persist diff/test manifests to MinIO via `BuildProcessor`, enforce tripwires, and expose stored manifest data on `GET /v1/build/:id`. (Refs: `app/app/Support/Builds/BuildProcessor.php`, `app/app/Http/Controllers/Api/BuildController.php`)
+- Feature coverage in `RfcBuildTest` validates happy path, tripwire blocking, manifest exposure, and rollback plan retention. (Ref: `app/tests/Feature/RfcBuildTest.php`)
+
 _All reviewed milestones remain marked as complete in `SELF-README.md`; no updates required._

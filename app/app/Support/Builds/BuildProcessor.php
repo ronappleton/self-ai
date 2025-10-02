@@ -72,7 +72,7 @@ class BuildProcessor
             'rollback_plan' => $rollbackPlan,
             'tests' => $this->summariseTests($testReport),
         ];
-        $this->storeJson($disk, $buildPath.'/manifest.json', $manifest);
+        $manifestPath = $this->storeJson($disk, $buildPath.'/manifest.json', $manifest);
 
         $metadata = [
             'playwright_base_path' => config('builds.playwright.base_path', 'storage/app/tmp/playwright'),
@@ -80,6 +80,8 @@ class BuildProcessor
             'rollback_plan' => $rollbackPlan,
             'tests' => $this->summariseTests($testReport),
             'tripwire' => $tripwire,
+            'manifest_disk' => $diskName,
+            'manifest_path' => $manifestPath,
         ];
 
         $build->fill([
