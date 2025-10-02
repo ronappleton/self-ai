@@ -32,7 +32,7 @@ if [ "${INSTALL_DEPENDENCIES:-true}" = "true" ]; then
 
     if [ -f package.json ]; then
         if [ ! -d node_modules ] || [ -z "$(find node_modules -mindepth 1 -maxdepth 1 -print -quit 2>/dev/null)" ]; then
-            npm install --include=dev
+            pnpm install --frozen-lockfile
         fi
     fi
 

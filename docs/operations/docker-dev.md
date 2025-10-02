@@ -20,7 +20,7 @@ cp app/.env.example app/.env
 docker compose up --build
 ```
 
-The first boot may take a few minutes while Composer and npm dependencies are installed. Subsequent startups reuse cached volumes.
+The first boot may take a few minutes while Composer and pnpm dependencies are installed. Subsequent startups reuse cached volumes.
 
 ## Services
 
@@ -46,8 +46,8 @@ docker compose run --rm app composer require vendor/package
 # Run the PHP test suite
 docker compose run --rm app php artisan test
 
-# Install new npm packages
-docker compose run --rm vite npm install <package>
+# Install new frontend packages
+docker compose run --rm vite pnpm add <package>
 ```
 
 All application code is bind-mounted into the containers, so changes made on the host are picked up automatically.
