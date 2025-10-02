@@ -1,0 +1,25 @@
+name: Build and Run Containers
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Bootstrap application files
+        run: make bootstrap
+
+      - name: Build and start services
+        run: docker compose up --build -d
+
+      - name: List running services
+        run: docker compose ps
+
+      - name: Tear down services
+        if: always()
+        run: docker compose down --volumes
