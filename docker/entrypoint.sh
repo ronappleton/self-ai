@@ -32,7 +32,7 @@ if [ "${INSTALL_DEPENDENCIES:-true}" = "true" ]; then
 
     if [ -f package.json ]; then
         if [ ! -d node_modules ]; then
-            npm install
+            npm install --include=dev
         fi
     fi
 
