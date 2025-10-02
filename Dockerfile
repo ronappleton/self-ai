@@ -14,6 +14,7 @@ RUN apt-get update \
         libpng-dev \
         libonig-dev \
         libxml2-dev \
+        libpq-dev \
         libsqlite3-dev \
         sqlite3 \
         supervisor \
