@@ -183,6 +183,7 @@ class ChatService
             'summary' => $summary,
             'memory' => [
                 'considered' => $hits->count(),
+                'citations_considered' => count($citations),
                 'used_citations' => array_column($citations, 'id'),
                 'top_scores' => $hits->take(3)->map(fn ($hit) => isset($hit['score']) ? round((float) $hit['score'], 4) : null)->filter()->values()->all(),
             ],

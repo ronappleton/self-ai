@@ -55,6 +55,7 @@ class ChatEndpointTest extends TestCase
         $this->assertNotEmpty($payload['citations']);
         $this->assertSame($document->id, $payload['citations'][0]['document_id']);
         $this->assertSame('detailed', $payload['why_card']['detail_level']);
+        $this->assertSame(1, $payload['why_card']['memory']['citations_considered']);
         $this->assertGreaterThan(0, $payload['budget']['tokens']['limit']);
         $this->assertArrayHasKey('remaining', $payload['budget']['tokens']);
     }
@@ -88,6 +89,7 @@ class ChatEndpointTest extends TestCase
         $this->assertSame('terse', $payload['why_card']['detail_level']);
         $this->assertStringContainsString('Analyst brief', $payload['reply']);
         $this->assertStringContainsString('when you are ready', $payload['reply']);
+        $this->assertSame(1, $payload['why_card']['memory']['citations_considered']);
     }
 
     public function test_chat_blocks_high_risk_topics_and_logs_refusal(): void
