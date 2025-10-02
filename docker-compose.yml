@@ -1,5 +1,22 @@
 version: "3.9"
 
+x-app-environment: &app-environment
+  APP_ENV: local
+  APP_DEBUG: "true"
+  APP_URL: http://localhost:8000
+  DB_CONNECTION: sqlite
+  QUEUE_CONNECTION: redis
+  CACHE_STORE: redis
+  SESSION_DRIVER: database
+  REDIS_HOST: redis
+  REDIS_PORT: 6379
+  BROADCAST_CONNECTION: log
+  AUDIO_STORAGE_DISK: minio
+  VECTOR_INDEX_KEY: "0123456789abcdef0123456789abcdef"
+  PROMOTION_VERIFIER_KEY_ID: local
+  PROMOTION_VERIFIER_KEY: dev-verifier-secret
+  RUN_MIGRATIONS: "true"
+
 services:
   app:
     build:
@@ -9,18 +26,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
-      APP_URL: http://localhost:8000
-      DB_CONNECTION: sqlite
-      QUEUE_CONNECTION: redis
-      CACHE_STORE: redis
-      SESSION_DRIVER: database
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      BROADCAST_CONNECTION: log
-      AUDIO_STORAGE_DISK: minio
-      RUN_MIGRATIONS: "true"
+      <<: *app-environment
     volumes:
       - ./app:/var/www/html
       - app-vendor:/var/www/html/vendor
@@ -35,16 +41,7 @@ services:
       dockerfile: Dockerfile
     command: php artisan horizon
     environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
-      APP_URL: http://localhost:8000
-      DB_CONNECTION: sqlite
-      QUEUE_CONNECTION: redis
-      CACHE_STORE: redis
-      SESSION_DRIVER: database
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      AUDIO_STORAGE_DISK: minio
+      <<: *app-environment
       RUN_MIGRATIONS: "false"
     volumes:
       - ./app:/var/www/html
@@ -62,8 +59,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      APP_ENV: local
-      APP_DEBUG: "true"
+      <<: *app-environment
       RUN_MIGRATIONS: "false"
     volumes:
       - ./app:/var/www/html
@@ -72,6 +68,16 @@ services:
     depends_on:
       app:
         condition: service_started
+
+  verifier:
+    build:
+      context: verifier
+      dockerfile: Dockerfile
+    environment:
+      VERIFIER_KEY: dev-verifier-secret
+      VERIFIER_KEY_ID: local
+    ports:
+      - "8099:8099"
 
   redis:
     image: redis:7.4-alpine
