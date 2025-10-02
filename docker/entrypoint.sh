@@ -18,7 +18,10 @@ fi
 
 # Serialise dependency installation across services
 if [ "${INSTALL_DEPENDENCIES:-true}" = "true" ]; then
-    exec 200>/.docker-deps.lock
+    # Use a lock file on the shared application volume so that parallel
+    # containers coordinate dependency installation properly.
+    lock_file="/var/www/html/.docker-deps.lock"
+    exec 200>"${lock_file}"
     flock 200
 
     if [ ! -d vendor ]; then
