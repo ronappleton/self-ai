@@ -24,14 +24,15 @@ The first boot may take a few minutes while Composer and npm dependencies are in
 
 ## Services
 
-| Service  | Description                                   | Exposed Ports |
-|----------|-----------------------------------------------|---------------|
-| `app`    | Laravel HTTP server (`php artisan serve`)     | 8000          |
-| `horizon`| Queue processing via Laravel Horizon          | —             |
-| `vite`   | Vite dev server for frontend assets           | 5173          |
-| `redis`  | Redis cache/queue backend                     | 6379          |
+| Service    | Description                                         | Exposed Ports |
+|------------|-----------------------------------------------------|---------------|
+| `app`      | Laravel HTTP server (`php artisan serve`)           | 8000          |
+| `horizon`  | Queue processing via Laravel Horizon                | —             |
+| `vite`     | Vite dev server for frontend assets                 | 5173          |
+| `verifier` | FastAPI signing service for promotion workflows     | 8099          |
+| `redis`    | Redis cache/queue backend                           | 6379          |
 
-Access the Laravel application at [http://localhost:8000](http://localhost:8000) and the Vite dev server at [http://localhost:5173](http://localhost:5173).
+Access the Laravel application at [http://localhost:8000](http://localhost:8000), the Vite dev server at [http://localhost:5173](http://localhost:5173), and the verifier API at [http://localhost:8099](http://localhost:8099).
 
 ## Useful commands
 
@@ -50,6 +51,16 @@ docker compose run --rm vite npm install <package>
 ```
 
 All application code is bind-mounted into the containers, so changes made on the host are picked up automatically.
+
+## Make targets
+
+A convenience `Makefile` is available in the repository root. The fastest way to start the entire stack (including Redis and the verifier service) is:
+
+```bash
+make run
+```
+
+The `bootstrap` step runs automatically on the first invocation and ensures `.env`, the SQLite database file, and the vector store directory exist before `docker compose` is executed.
 
 ## Stopping and cleanup
 

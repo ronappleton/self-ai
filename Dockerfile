@@ -17,6 +17,8 @@ RUN apt-get update \
         libsqlite3-dev \
         sqlite3 \
         supervisor \
+        python3 \
+        python3-pip \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
         bcmath \
@@ -41,6 +43,11 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
+
+# Install Python dependencies for the embedding worker
+COPY worker-embed/requirements.txt /tmp/worker-embed-requirements.txt
+RUN pip3 install --no-cache-dir -r /tmp/worker-embed-requirements.txt \
+    && rm /tmp/worker-embed-requirements.txt
 
 # Copy application code
 COPY app/ ./
