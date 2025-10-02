@@ -31,7 +31,7 @@ if [ "${INSTALL_DEPENDENCIES:-true}" = "true" ]; then
     fi
 
     if [ -f package.json ]; then
-        if [ ! -d node_modules ]; then
+        if [ ! -d node_modules ] || [ -z "$(find node_modules -mindepth 1 -maxdepth 1 -print -quit 2>/dev/null)" ]; then
             npm install --include=dev
         fi
     fi
