@@ -10,12 +10,15 @@ use App\Http\Controllers\Api\VoiceController;
 use App\Http\Controllers\Api\PromotionController;
 use App\Http\Controllers\Api\LegacyPreviewController;
 use App\Http\Controllers\Api\LegacyDirectiveController;
+use App\Http\Controllers\Api\ObservabilityController;
 use App\Support\Policy\PolicyVerifier;
+use App\Support\Observability\MetricCollector;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/health', function (Request $request, PolicyVerifier $verifier) {
+Route::get('/health', function (Request $request, PolicyVerifier $verifier, MetricCollector $metrics) {
     $policy = $verifier->verify();
+    $observability = $metrics->snapshot();
 
     return response()->json([
         'status' => 'ok',
@@ -24,6 +27,14 @@ Route::get('/health', function (Request $request, PolicyVerifier $verifier) {
         'queue' => config('queue.default'),
         'policy_hash' => $policy['hash'],
         'policy_version' => $policy['version'],
+        'queue_summary' => collect($observability['queues'])
+            ->map(fn ($queue) => [
+                'name' => $queue['name'],
+                'depth' => $queue['depth'],
+                'status' => $queue['status'],
+            ])->all(),
+        'refusals_24h' => $observability['refusals']['count'] ?? 0,
+        'gpu_status' => $observability['gpu']['status'] ?? 'unavailable',
     ]);
 });
 
@@ -57,4 +68,5 @@ Route::middleware('auth:sanctum')->prefix('v1')->group(function (): void {
     Route::delete('/legacy/directive', [LegacyDirectiveController::class, 'destroy']);
     Route::post('/legacy/directive/unlock', [LegacyDirectiveController::class, 'unlock']);
     Route::post('/legacy/directive/panic-disable', [LegacyDirectiveController::class, 'panicDisable']);
+    Route::get('/observability/metrics', ObservabilityController::class);
 });

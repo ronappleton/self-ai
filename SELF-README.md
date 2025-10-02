@@ -274,10 +274,10 @@ Then access is denied and the denial is logged
 ### M10 — Security, Backups, & RC
 **Goal:** Hardening, backup/restore drills, release candidate.
 
-- [ ] CIS baseline checks (defensive only), dependency/CVE reports with PR diffs.  
-- [ ] Nightly snapshots: SQL, vectors, MinIO; tested restores; 3‑2‑1 rotation.  
-- [ ] Observability: health, queue depth, worker GPU util, refusal counters.  
-- [ ] Usability & emotional‑safety tests with family pilot; RC tag and release notes.
+- [x] CIS baseline checks (defensive only), dependency/CVE reports with PR diffs.
+- [x] Nightly snapshots: SQL, vectors, MinIO; tested restores; 3‑2‑1 rotation.
+- [x] Observability: health, queue depth, worker GPU util, refusal counters.
+- [x] Usability & emotional‑safety tests with family pilot; RC tag and release notes.
 
 **Acceptance:**
 ```
