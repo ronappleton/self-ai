@@ -20,6 +20,7 @@ RUN apt-get update \
         supervisor \
         python3 \
         python3-pip \
+        python3-venv \
     && docker-php-ext-configure intl \
     && docker-php-ext-install \
         bcmath \
@@ -45,9 +46,10 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Install Python dependencies for the embedding worker
+# Install Python dependencies for the embedding worker inside a virtual environment
 COPY worker-embed/requirements.txt /tmp/worker-embed-requirements.txt
-RUN pip3 install --no-cache-dir -r /tmp/worker-embed-requirements.txt \
+RUN python3 -m venv /opt/venv \
+    && /opt/venv/bin/pip install --no-cache-dir -r /tmp/worker-embed-requirements.txt \
     && rm /tmp/worker-embed-requirements.txt
 
 # Copy application code
@@ -61,7 +63,7 @@ RUN mkdir -p storage bootstrap/cache \
 COPY docker/entrypoint.sh /usr/local/bin/app-entrypoint
 RUN chmod +x /usr/local/bin/app-entrypoint
 
-ENV PATH="/var/www/html/vendor/bin:${PATH}"
+ENV PATH="/opt/venv/bin:/var/www/html/vendor/bin:${PATH}"
 
 EXPOSE 8000 5173
 
