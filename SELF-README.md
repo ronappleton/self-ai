@@ -75,6 +75,18 @@ php artisan reverb:start --host=0.0.0.0 --port=${REVERB_PORT:-8080}
 php artisan horizon
 ```
 
+### Docker Quick Start
+
+Alternatively, you can boot the stack with Docker. Follow the detailed instructions in `docs/operations/docker-dev.md`, or run:
+
+```bash
+cp app/.env.example app/.env
+: > app/database/database.sqlite
+docker compose up --build
+```
+
+The compose file exposes the Laravel app on [http://localhost:8000](http://localhost:8000) and the Vite dev server on [http://localhost:5173](http://localhost:5173).
+
 **Vite env:**
 ```
 VITE_REVERB_APP_KEY=${REVERB_APP_KEY}

@@ -1,0 +1,21 @@
+# Docker build context exclusions
+.git
+.gitmodules
+.github
+node_modules
+app/node_modules
+app/vendor
+verifier/__pycache__
+worker-embed/__pycache__
+worker-asr/__pycache__
+worker-tts/__pycache__
+**/__pycache__
+*.log
+storage
+app/storage/app/tmp
+app/storage/framework/cache
+app/storage/framework/sessions
+app/storage/framework/views
+app/storage/logs
+.env
+app/.env

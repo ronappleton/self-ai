@@ -1,0 +1,91 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: php artisan serve --host=0.0.0.0 --port=8000
+    ports:
+      - "8000:8000"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: sqlite
+      QUEUE_CONNECTION: redis
+      CACHE_STORE: redis
+      SESSION_DRIVER: database
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      BROADCAST_CONNECTION: log
+      AUDIO_STORAGE_DISK: minio
+      RUN_MIGRATIONS: "true"
+    volumes:
+      - ./app:/var/www/html
+      - app-vendor:/var/www/html/vendor
+      - app-node-modules:/var/www/html/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  horizon:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: php artisan horizon
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8000
+      DB_CONNECTION: sqlite
+      QUEUE_CONNECTION: redis
+      CACHE_STORE: redis
+      SESSION_DRIVER: database
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      AUDIO_STORAGE_DISK: minio
+      RUN_MIGRATIONS: "false"
+    volumes:
+      - ./app:/var/www/html
+      - app-vendor:/var/www/html/vendor
+      - app-node-modules:/var/www/html/node_modules
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  vite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+    ports:
+      - "5173:5173"
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"
+      RUN_MIGRATIONS: "false"
+    volumes:
+      - ./app:/var/www/html
+      - app-vendor:/var/www/html/vendor
+      - app-node-modules:/var/www/html/node_modules
+    depends_on:
+      app:
+        condition: service_started
+
+  redis:
+    image: redis:7.4-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    volumes:
+      - redis-data:/data
+
+volumes:
+  app-vendor:
+  app-node-modules:
+  redis-data:
