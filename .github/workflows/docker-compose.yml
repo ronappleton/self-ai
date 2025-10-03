@@ -14,8 +14,14 @@ jobs:
       - name: Bootstrap application files
         run: make bootstrap
 
-      - name: Build and start services
-        run: docker compose up --build -d
+      - name: Build images
+        run: docker compose build
+
+      - name: Verify Vite build
+        run: docker compose run --rm vite pnpm run build
+
+      - name: Start services
+        run: docker compose up -d
 
       - name: List running services
         run: docker compose ps
