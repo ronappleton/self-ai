@@ -6,7 +6,7 @@ DOCKER_COMPOSE ?= docker compose
 run: up
 
 up: bootstrap
-	$(DOCKER_COMPOSE) up --build
+	$(DOCKER_COMPOSE) up -d --build
 
 build:
 	$(DOCKER_COMPOSE) build
