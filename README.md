@@ -1,4 +1,5 @@
 # SELF — Personal AI Orchestrator
+[![CI](https://github.com/ronappleton/self-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/ronappleton/self-ai/actions/workflows/ci.yml) [![CodeQL](https://github.com/ronappleton/self-ai/actions/workflows/codeql.yml/badge.svg)](https://github.com/ronappleton/self-ai/actions/workflows/codeql.yml) [![Scorecard](https://github.com/ronappleton/self-ai/actions/workflows/scorecard.yml/badge.svg)](https://github.com/ronappleton/self-ai/actions/workflows/scorecard.yml)
 
 ## Overview
 SELF is an API-first, local-first personal AI platform that pairs a Laravel 11 orchestrator with Python workers to deliver retrieval-augmented chat, audio pipelines, and a guarded self-improvement workflow. The project emphasizes consent, disclosure, and immutable policy enforcement across every milestone of delivery.
