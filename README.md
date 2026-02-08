@@ -100,3 +100,15 @@ Run the PHP, Laravel Horizon, and frontend test suites before promotion. Contain
 - Operational runbooks live under `docs/operations/`.
 - Security, storage sizing, and schema references are in the appendix of `SELF-README.md` for deeper planning.
 
+
+## Manual
+
+See `./MANUAL.md`.
+
+## Diagrams
+
+```mermaid
+flowchart LR
+    Client["Client / Caller"] --> Service["self-ai"]
+    Service --> Dependencies["Dependencies"]
+```
